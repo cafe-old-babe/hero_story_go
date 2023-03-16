@@ -17,4 +17,6 @@
 ./build
 go_build_biz_server_go
 
-.idea
+.idea/
+.DS_Store
+./log

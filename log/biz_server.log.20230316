@@ -1,7 +1,0 @@
-2023/03/16 19:59:32.917290 biz_server.go:33: [INFO] bizServer start success
-2023/03/16 19:59:52.970731 biz_server.go:56: [INFO] 有新客户端加入
-2023/03/16 19:59:56.581979 biz_server.go:63: [INFO] msgData: [0 0 0 13 10 1 49 18 1 50]
-2023/03/16 19:59:56.582884 biz_server.go:80: [INFO] 收到客户端消息,,msgCode: 13, message Name: UserLoginCmd
-2023/03/16 19:59:56.583709 user_login_cmd_handler.go:24: [INFO] 收到用户消息-->: {userName:"1"  password:"2"}
-2023/03/16 20:11:54.952200 biz_server.go:60: [ERROR] websocket readMessage error: websocket: close 1006 (abnormal closure): unexpected EOF 
-2023/03/16 20:12:02.962741 biz_server.go:56: [INFO] 有新客户端加入

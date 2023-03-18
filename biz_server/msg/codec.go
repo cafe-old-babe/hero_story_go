@@ -27,12 +27,12 @@ func Decode(msgData []byte, msgCode int16) (*dynamicpb.Message, error) {
 }
 
 // Encode 编码
-func Encode(msgObj protoreflect.ProtoMessage) ([]byte, error) {
+func Encode(msgObj *protoreflect.ProtoMessage) ([]byte, error) {
 	if msgObj == nil {
 		return nil, errors.New("消息对象为空")
 	}
 	//消息代号
-	msgCode, err := getMsgCodeByMsgName(string(msgObj.ProtoReflect().Descriptor().Name()))
+	msgCode, err := getMsgCodeByMsgName(string((*msgObj).ProtoReflect().Descriptor().Name()))
 
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func Encode(msgObj protoreflect.ProtoMessage) ([]byte, error) {
 	msgSizeByteArray := make([]byte, 2)
 	binary.BigEndian.PutUint16(msgSizeByteArray, 0)
 
-	bytes, err := proto.Marshal(msgObj)
+	bytes, err := proto.Marshal(*msgObj)
 	if err != nil {
 		return nil, err
 	}

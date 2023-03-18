@@ -19,5 +19,5 @@ go_build_biz_server_go
 
 .idea/
 .DS_Store
-./log/
+log/
 resources/

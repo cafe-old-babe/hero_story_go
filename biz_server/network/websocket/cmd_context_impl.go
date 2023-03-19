@@ -114,7 +114,7 @@ func (ctx *CmdContextImpl) LoopReadMsg() {
 		msgCode := binary.BigEndian.Uint16(msgData[2:4])
 		message, err := msg.Decode(msgData[4:], int16(msgCode))
 		if err != nil {
-			log.Error("message message msgCode: %d, err: %v+", msgCode, err)
+			log.Error("message message msgCode: %d, err: %+v", msgCode, err)
 			continue
 		}
 		log.Info("收到客户端消息,,msgCode: %d, message Name: %v", msgCode, message.Descriptor().Name())

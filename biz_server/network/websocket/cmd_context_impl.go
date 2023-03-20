@@ -4,10 +4,10 @@ import (
 	"encoding/binary"
 	"github.com/gorilla/websocket"
 	"google.golang.org/protobuf/reflect/protoreflect"
-	"hero_stroy/biz_server/handler"
-	"hero_stroy/biz_server/msg"
-	"hero_stroy/comm/log"
-	"hero_stroy/comm/main_thread"
+	"hero_story/biz_server/handler"
+	"hero_story/biz_server/msg"
+	"hero_story/comm/log"
+	"hero_story/comm/main_thread"
 	"time"
 )
 

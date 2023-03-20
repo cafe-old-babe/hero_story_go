@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/websocket"
-	myWebsocket "hero_stroy/biz_server/network/websocket"
-	"hero_stroy/comm/log"
+	myWebsocket "hero_story/biz_server/network/websocket"
+	"hero_story/comm/log"
 	"net/http"
 	"os"
 	"path"

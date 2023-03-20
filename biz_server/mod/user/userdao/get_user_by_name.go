@@ -1,9 +1,9 @@
 package userdao
 
 import (
-	"hero_stroy/biz_server/base"
-	"hero_stroy/biz_server/mod/user/userdata"
-	"hero_stroy/comm/log"
+	"hero_story/biz_server/base"
+	"hero_story/biz_server/mod/user/userdata"
+	"hero_story/comm/log"
 )
 
 const sqlGetUserByName = `SELECT user_id,user_name,password,hero_avatar FROM t_user WHERE user_name =?`

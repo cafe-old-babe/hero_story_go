@@ -1,8 +1,8 @@
 package async_op
 
 import (
-	"hero_stroy/comm/log"
-	"hero_stroy/comm/main_thread"
+	"hero_story/comm/log"
+	"hero_story/comm/main_thread"
 )
 
 type worker struct {

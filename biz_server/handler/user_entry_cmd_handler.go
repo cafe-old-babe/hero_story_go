@@ -2,7 +2,7 @@ package handler
 
 import (
 	"google.golang.org/protobuf/types/dynamicpb"
-	"hero_stroy/biz_server/msg"
+	"hero_story/biz_server/msg"
 )
 
 func init() {

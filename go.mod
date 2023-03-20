@@ -1,4 +1,4 @@
-module hero_stroy
+module hero_story
 
 go 1.18
 

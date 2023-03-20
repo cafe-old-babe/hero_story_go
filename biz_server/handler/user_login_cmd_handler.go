@@ -3,10 +3,10 @@ package handler
 import (
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/types/dynamicpb"
-	"hero_stroy/biz_server/mod/login/loginsrv"
-	"hero_stroy/biz_server/mod/user/userdata"
-	"hero_stroy/biz_server/msg"
-	"hero_stroy/comm/log"
+	"hero_story/biz_server/mod/login/loginsrv"
+	"hero_story/biz_server/mod/user/userdata"
+	"hero_story/biz_server/msg"
+	"hero_story/comm/log"
 )
 
 func init() {

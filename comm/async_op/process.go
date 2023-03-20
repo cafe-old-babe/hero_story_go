@@ -24,7 +24,7 @@ func getCurrentWorker(bindId int) (w *worker) {
 	if bindId < 0 {
 		bindId = -bindId
 	}
-	i := bindId & len(workerArray)
+	i := bindId % len(workerArray)
 	w = workerArray[i]
 	if w != nil {
 		return

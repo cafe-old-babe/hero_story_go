@@ -10,7 +10,7 @@ import (
 
 // Decode 解码
 func Decode(msgData []byte, msgCode int16) (*dynamicpb.Message, error) {
-	if nil == msgData || len(msgData) <= 0 {
+	if nil == msgData {
 		return nil, errors.New("消息数据为空")
 	}
 	//拿到消息描述符

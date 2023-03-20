@@ -10,6 +10,8 @@ import (
 	"path"
 )
 
+var sessionId int32 = 0
+
 var upgrader = &websocket.Upgrader{
 	ReadBufferSize:  2048,
 	WriteBufferSize: 2048,
@@ -49,9 +51,14 @@ func websocketHandShake(w http.ResponseWriter, r *http.Request) {
 		}
 	}()
 	log.Info("有新客户端加入")
+	sessionId += 1
 	ctx := &myWebsocket.CmdContextImpl{
-		Conn: conn,
+		Conn:      conn,
+		SessionId: sessionId,
 	}
+	myWebsocket.GetCmdContextImplGroup().Add(ctx)
+	defer myWebsocket.GetCmdContextImplGroup().RemoveBySessionId(ctx.SessionId)
+
 	go ctx.LoopSendMsg()
 
 	ctx.LoopReadMsg()

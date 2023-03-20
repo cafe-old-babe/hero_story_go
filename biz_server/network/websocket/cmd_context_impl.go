@@ -21,6 +21,7 @@ type CmdContextImpl struct {
 	clientIpAddr string
 	Conn         *websocket.Conn
 	sendMsgQueue chan *protoreflect.ProtoMessage
+	SessionId    int32
 }
 
 // BindUserId 绑定用户

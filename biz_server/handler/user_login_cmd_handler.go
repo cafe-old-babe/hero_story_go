@@ -42,6 +42,7 @@ func userLoginCmdHandler(ctx MyCmdContext, pbMsgObj *dynamicpb.Message) {
 			UserName:   user.UserName,
 			HeroAvatar: user.HeroAvatar,
 		}
+		userdata.GetUserGroup().Add(user)
 		ctx.BindUserId(user.UserId)
 		ctx.Write(userLoginResult)
 	})

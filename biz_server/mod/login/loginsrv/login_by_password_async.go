@@ -34,10 +34,8 @@ func LoginByPasswordAsync(userName string, password string) *base.AsyncBizResult
 		bizResult.SetReturnObj(user)
 	}
 
-	continueWith := bizResult.DoComplete
 	async_op.Process(async_op.StrToBindId(userName),
-		&asyncOp,
-		&continueWith)
+		&asyncOp, nil)
 
 	return bizResult
 }

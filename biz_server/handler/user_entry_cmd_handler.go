@@ -2,8 +2,10 @@ package handler
 
 import (
 	"google.golang.org/protobuf/types/dynamicpb"
+	"hero_story/biz_server/base"
 	"hero_story/biz_server/mod/user/userdata"
 	"hero_story/biz_server/msg"
+	"hero_story/biz_server/network/broadcaster"
 	"hero_story/comm/log"
 )
 
@@ -11,7 +13,7 @@ func init() {
 	cmdHandlerMap[uint16(msg.MsgCode_USER_ENTRY_CMD)] = userEntryCmdHandler
 }
 
-func userEntryCmdHandler(ctx MyCmdContext, _ *dynamicpb.Message) {
+func userEntryCmdHandler(ctx base.MyCmdContext, _ *dynamicpb.Message) {
 	if ctx == nil || ctx.GetUserId() <= 0 {
 		return
 	}
@@ -27,6 +29,5 @@ func userEntryCmdHandler(ctx MyCmdContext, _ *dynamicpb.Message) {
 		UserName:   user.UserName,
 		HeroAvatar: user.HeroAvatar,
 	}
-	ctx.Write(userEntryResult)
-
+	broadcaster.Broadcast(userEntryResult)
 }

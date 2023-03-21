@@ -62,6 +62,7 @@ func (ctx *CmdContextImpl) Disconnect() {
 	_ = ctx.Conn.Close()
 }
 
+// LoopSendMsg 发送消息
 func (ctx *CmdContextImpl) LoopSendMsg() {
 	if ctx.sendMsgQueue != nil {
 		return
@@ -78,11 +79,12 @@ func (ctx *CmdContextImpl) LoopSendMsg() {
 			return
 		}
 		if err := ctx.Conn.WriteMessage(websocket.BinaryMessage, byteArray); err != nil {
-			log.Error("[websocket] WriteMessage error: %v", err)
+			log.Error("[websocket] WriteMessage error: %+v", err)
 		}
 	}
 }
 
+// LoopReadMsg 读取消息
 func (ctx *CmdContextImpl) LoopReadMsg() {
 	if nil == ctx.Conn {
 		return
@@ -118,7 +120,7 @@ func (ctx *CmdContextImpl) LoopReadMsg() {
 			log.Error("message message msgCode: %d, err: %+v", msgCode, err)
 			continue
 		}
-		log.Info("收到客户端消息,,msgCode: %d, message Name: %v", msgCode, message.Descriptor().Name())
+		log.Info("收到客户端消息,msgCode: %d, message Name: %v", msgCode, message.Descriptor().Name())
 
 		cmdHandlerFunc := handler.CreateCmdHandler(msgCode)
 		if cmdHandlerFunc == nil {
@@ -130,4 +132,6 @@ func (ctx *CmdContextImpl) LoopReadMsg() {
 		})
 
 	}
+
+	handler.OnUserQuitHandler(ctx)
 }

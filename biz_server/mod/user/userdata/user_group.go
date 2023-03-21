@@ -38,3 +38,8 @@ func (group *userGroup) GetByUserId(userId int64) (user *User) {
 	user = group.innerMap[userId]
 	return
 }
+
+// GetUserAll 获取所有用户
+func (group *userGroup) GetUserAll() map[int64]*User {
+	return group.innerMap
+}

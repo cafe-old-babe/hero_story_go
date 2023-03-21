@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/websocket"
+	"hero_story/biz_server/network/broadcaster"
 	myWebsocket "hero_story/biz_server/network/websocket"
 	"hero_story/comm/log"
 	"net/http"
@@ -56,10 +57,12 @@ func websocketHandShake(w http.ResponseWriter, r *http.Request) {
 		Conn:      conn,
 		SessionId: sessionId,
 	}
-	myWebsocket.GetCmdContextImplGroup().Add(ctx)
-	defer myWebsocket.GetCmdContextImplGroup().RemoveBySessionId(ctx.SessionId)
+	broadcaster.AddCmdCtx(sessionId, ctx)
+	defer broadcaster.RemoveCmdCtxBySessionId(sessionId)
 
+	// 发送消息
 	go ctx.LoopSendMsg()
-
+	//读取消息
 	ctx.LoopReadMsg()
+
 }

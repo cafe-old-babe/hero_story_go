@@ -3,6 +3,7 @@ package handler
 import (
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/types/dynamicpb"
+	"hero_story/biz_server/base"
 	"hero_story/biz_server/mod/login/loginsrv"
 	"hero_story/biz_server/mod/user/userdata"
 	"hero_story/biz_server/msg"
@@ -13,7 +14,7 @@ func init() {
 	cmdHandlerMap[uint16(msg.MsgCode_USER_LOGIN_CMD.Number())] = userLoginCmdHandler
 }
 
-func userLoginCmdHandler(ctx MyCmdContext, pbMsgObj *dynamicpb.Message) {
+func userLoginCmdHandler(ctx base.MyCmdContext, pbMsgObj *dynamicpb.Message) {
 	if ctx == nil || pbMsgObj == nil {
 		return
 	}

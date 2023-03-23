@@ -43,9 +43,8 @@ func userAttkCmdHandler(ctx base.MyCmdContext, dp *dynamicpb.Message) {
 		SubtractHp:   uint32(subtractHp),
 	}
 	broadcaster.Broadcast(userSubtractHpResult)
-	userLso := &userlso.UserLso{
-		User: user,
-	}
+
+	userLso := userlso.GetUserLso(user)
 
 	lazy_save.SaveOrUpdate(userLso)
 

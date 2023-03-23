@@ -7,8 +7,8 @@ import (
 )
 
 const sqlSaveOrUpdate = `
-insert  into t_user(user_name, password, hero_avatar, create_time, last_login_time) values (?, ?, ?, ?, ?)
-on duplicate key update last_login_time=?
+insert  into t_user(user_name, password, hero_avatar, curr_hp, create_time, last_login_time) values (?, ?, ?, ?, ?, ?)
+on duplicate key update curr_hp = values(curr_hp), last_login_time = values(last_login_time)
 `
 
 func SaveOrUpdate(user *userdata.User) error {
@@ -20,7 +20,7 @@ func SaveOrUpdate(user *userdata.User) error {
 		log.Error("saveOrUpdate Prepare err: %+v", err)
 		return err
 	}
-	exec, err := stmt.Exec(user.UserName, user.Password, user.HeroAvatar, user.CreateTime, user.LastLoginTime, user.LastLoginTime)
+	exec, err := stmt.Exec(user.UserName, user.Password, user.HeroAvatar, user.CurrHp, user.CreateTime, user.LastLoginTime)
 	if err != nil {
 		log.Error("saveOrUpdate Exec err: %+v", err)
 		return err

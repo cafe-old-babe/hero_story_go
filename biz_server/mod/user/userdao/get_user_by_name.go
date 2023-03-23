@@ -6,7 +6,7 @@ import (
 	"hero_story/comm/log"
 )
 
-const sqlGetUserByName = `SELECT user_id,user_name,password,hero_avatar FROM t_user WHERE user_name =?`
+const sqlGetUserByName = `SELECT user_id,user_name,password,hero_avatar, curr_hp FROM t_user WHERE user_name =?`
 
 // GetUserByName 根据用户名查询用户信息
 func GetUserByName(userName string) *userdata.User {
@@ -18,7 +18,7 @@ func GetUserByName(userName string) *userdata.User {
 		return nil
 	}
 	user := &userdata.User{}
-	if err := row.Scan(&user.UserId, &user.UserName, &user.Password, &user.HeroAvatar); err != nil {
+	if err := row.Scan(&user.UserId, &user.UserName, &user.Password, &user.HeroAvatar, &user.CurrHp); err != nil {
 		log.Error("GetUserByName error: %v", err)
 		return nil
 	}

@@ -56,7 +56,7 @@ func websocketHandShake(w http.ResponseWriter, r *http.Request) {
 		Conn:      conn,
 		SessionId: sessionId,
 	}
-	go ctx.LoopSendMsg()
+	ctx.LoopSendMsg()
 	ctx.LoopReadMsg()
 
 }

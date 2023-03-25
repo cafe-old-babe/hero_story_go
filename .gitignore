@@ -16,6 +16,7 @@
 
 ./build
 go_build_biz_server_go
+*_server_go
 
 .idea/
 .DS_Store

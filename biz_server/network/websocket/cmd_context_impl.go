@@ -96,31 +96,33 @@ func (ctx *CmdContextImpl) LoopReadMsg() {
 	//limit the count of packet
 	t0 := int64(0)
 	counter := 0
+
 	for {
+		_, msgData, err := ctx.Conn.ReadMessage()
+		if err != nil {
+			log.Error("websocket readMessage error: %v ", err)
+			return
+		}
+		log.Info("msgData: %v", msgData)
+
+		t1 := time.Now().UnixMilli()
+		if (t1 - t0) > oneSecondMilli {
+			t0 = t1
+			counter = 0
+		}
+
+		if counter >= limitByPacketCountPerSecond {
+			log.Error("消息过于频繁, 拒绝处理, userId: %v, clientIp: %s", ctx.GetUserId(), ctx.GetClientIpAddr())
+			return
+		}
+		counter++
+
 		func() {
 			defer func() {
 				if e := recover(); e != nil {
 					log.Error("解析消息出错：%+v", e)
 				}
 			}()
-			_, msgData, err := ctx.Conn.ReadMessage()
-			if err != nil {
-				log.Error("websocket readMessage error: %v ", err)
-				return
-			}
-			log.Info("msgData: %v", msgData)
-
-			t1 := time.Now().UnixMilli()
-			if (t1 - t0) > oneSecondMilli {
-				t0 = t1
-				counter = 0
-			}
-
-			if counter >= limitByPacketCountPerSecond {
-				log.Error("消息过于频繁, 拒绝处理, userId: %v, clientIp: %s", ctx.GetUserId(), ctx.GetClientIpAddr())
-				return
-			}
-			counter++
 
 			msgCode := binary.BigEndian.Uint16(msgData[2:4])
 			message, err := msg.Decode(msgData[4:], int16(msgCode))
@@ -138,9 +140,9 @@ func (ctx *CmdContextImpl) LoopReadMsg() {
 			main_thread.Process(func() {
 				cmdHandlerFunc(ctx, message)
 			})
-			handler.OnUserQuitHandler(ctx)
+
 		}()
 
 	}
-
+	handler.OnUserQuitHandler(ctx)
 }

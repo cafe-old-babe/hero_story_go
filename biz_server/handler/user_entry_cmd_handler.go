@@ -3,7 +3,7 @@ package handler
 import (
 	"google.golang.org/protobuf/types/dynamicpb"
 	"hero_story/biz_server/base"
-	"hero_story/biz_server/mod/user/userdata"
+	"hero_story/biz_server/mod/user/user_data"
 	"hero_story/biz_server/msg"
 	"hero_story/biz_server/network/broadcaster"
 	"hero_story/comm/log"
@@ -19,7 +19,7 @@ func userEntryCmdHandler(ctx base.MyCmdContext, _ *dynamicpb.Message) {
 	}
 
 	log.Info("收到用户入场消息, userId: %d", ctx.GetUserId())
-	user := userdata.GetUserGroup().GetByUserId(ctx.GetUserId())
+	user := user_data.GetUserGroup().GetByUserId(ctx.GetUserId())
 	if nil == user {
 		log.Error("用户不存在, userId: %d", ctx.GetUserId())
 		return

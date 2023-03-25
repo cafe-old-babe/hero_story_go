@@ -1,4 +1,4 @@
-package userdata
+package user_data
 
 type MoveState struct {
 	FromPosX  float32

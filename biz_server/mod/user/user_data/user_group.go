@@ -1,4 +1,4 @@
-package userdata
+package user_data
 
 type userGroup struct {
 	innerMap map[int64]*User

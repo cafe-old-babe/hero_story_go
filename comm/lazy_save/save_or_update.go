@@ -51,7 +51,7 @@ func startSave() {
 					}
 					log.Info("执行延时保存对象, lsoId = %s", (*record.lsoRef).GetLsoId())
 					//userdao.SaveOrUpdate(lso.(*userdata.User))
-					(*record.lsoRef).SaveOrUpdate()
+					(*record.lsoRef).SaveOrUpdate(nil)
 					deleteArray = append(deleteArray, key.(string))
 				}
 				return true

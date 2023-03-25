@@ -3,7 +3,7 @@ package handler
 import (
 	"google.golang.org/protobuf/types/dynamicpb"
 	"hero_story/biz_server/base"
-	"hero_story/biz_server/mod/user/userdata"
+	"hero_story/biz_server/mod/user/user_data"
 	"hero_story/biz_server/msg"
 	"hero_story/comm/log"
 )
@@ -19,7 +19,7 @@ func whoElseIsHereCmdHandler(ctx base.MyCmdContext, _ *dynamicpb.Message) {
 	log.Info("收到还有谁消息, userId: %d", ctx.GetUserId())
 	result := &msg.WhoElseIsHereResult{}
 
-	userAll := userdata.GetUserGroup().GetUserAll()
+	userAll := user_data.GetUserGroup().GetUserAll()
 	for _, user := range userAll {
 		if user == nil {
 			continue

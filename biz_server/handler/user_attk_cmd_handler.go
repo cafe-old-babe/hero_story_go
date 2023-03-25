@@ -4,8 +4,8 @@ import (
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/types/dynamicpb"
 	"hero_story/biz_server/base"
-	"hero_story/biz_server/mod/user/userdata"
-	"hero_story/biz_server/mod/user/userlso"
+	"hero_story/biz_server/mod/user/user_data"
+	"hero_story/biz_server/mod/user/user_lso"
 	"hero_story/biz_server/msg"
 	"hero_story/biz_server/network/broadcaster"
 	"hero_story/comm/lazy_save"
@@ -31,7 +31,7 @@ func userAttkCmdHandler(ctx base.MyCmdContext, dp *dynamicpb.Message) {
 	}
 	broadcaster.Broadcast(userAttkResult)
 
-	user := userdata.GetUserGroup().GetByUserId(int64(userAttkCmd.TargetUserId))
+	user := user_data.GetUserGroup().GetByUserId(int64(userAttkCmd.TargetUserId))
 	if nil == user {
 		return
 	}
@@ -44,7 +44,7 @@ func userAttkCmdHandler(ctx base.MyCmdContext, dp *dynamicpb.Message) {
 	}
 	broadcaster.Broadcast(userSubtractHpResult)
 
-	userLso := userlso.GetUserLso(user)
+	userLso := user_lso.GetUserLso(user)
 
 	lazy_save.SaveOrUpdate(userLso)
 

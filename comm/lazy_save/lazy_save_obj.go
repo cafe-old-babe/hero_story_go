@@ -2,5 +2,5 @@ package lazy_save
 
 type lazySaveObj interface {
 	GetLsoId() string
-	SaveOrUpdate()
+	SaveOrUpdate(callback func())
 }

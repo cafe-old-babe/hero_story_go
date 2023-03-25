@@ -1,9 +1,9 @@
-package userlso
+package user_lso
 
-import "hero_story/biz_server/mod/user/userdata"
+import "hero_story/biz_server/mod/user/user_data"
 
 // GetUserLso 避免频繁创建对象,产生内存碎片
-func GetUserLso(user *userdata.User) *UserLso {
+func GetUserLso(user *user_data.User) *UserLso {
 	if nil == user {
 		return nil
 	}

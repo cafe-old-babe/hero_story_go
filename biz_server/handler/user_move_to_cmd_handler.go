@@ -4,7 +4,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/types/dynamicpb"
 	"hero_story/biz_server/base"
-	"hero_story/biz_server/mod/user/userdata"
+	"hero_story/biz_server/mod/user/user_data"
 	"hero_story/biz_server/msg"
 	"hero_story/biz_server/network/broadcaster"
 	"time"
@@ -19,7 +19,7 @@ func userMoveToCmdCmdHandler(ctx base.MyCmdContext, dp *dynamicpb.Message) {
 		return
 	}
 
-	user := userdata.GetUserGroup().GetByUserId(ctx.GetUserId())
+	user := user_data.GetUserGroup().GetByUserId(ctx.GetUserId())
 	if user == nil {
 		return
 	}
@@ -29,7 +29,7 @@ func userMoveToCmdCmdHandler(ctx base.MyCmdContext, dp *dynamicpb.Message) {
 		return true
 	})
 	if user.MoveState == nil {
-		user.MoveState = &userdata.MoveState{}
+		user.MoveState = &user_data.MoveState{}
 	}
 	nowTime := uint64(time.Now().UnixMilli())
 	user.MoveState.FromPosX = cmd.MoveFromPosX

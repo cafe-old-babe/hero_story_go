@@ -1,8 +1,8 @@
-package userdao
+package user_dao
 
 import (
 	"hero_story/biz_server/base"
-	"hero_story/biz_server/mod/user/userdata"
+	"hero_story/biz_server/mod/user/user_data"
 	"hero_story/comm/log"
 )
 
@@ -11,7 +11,7 @@ insert  into t_user(user_name, password, hero_avatar, curr_hp, create_time, last
 on duplicate key update curr_hp = values(curr_hp), last_login_time = values(last_login_time)
 `
 
-func SaveOrUpdate(user *userdata.User) error {
+func SaveOrUpdate(user *user_data.User) error {
 	if user == nil {
 		return nil
 	}

@@ -97,34 +97,34 @@ func (ctx *CmdContextImpl) LoopReadMsg() {
 				if e := recover(); e != nil {
 					log.Error("解析消息出错：%+v", e)
 				}
-				_, msgData, err := ctx.Conn.ReadMessage()
-				if err != nil {
-					log.Error("websocket readMessage error: %v ", err)
-					return
-				}
-				log.Info("msgData: %v", msgData)
-
-				t1 := time.Now().UnixMilli()
-				if (t1 - t0) > oneSecondMilli {
-					t0 = t1
-					counter = 0
-				}
-
-				if counter >= limitByPacketCountPerSecond {
-					log.Error("消息过于频繁, 拒绝处理, userId: %v, clientIp: %s", ctx.GetUserId(), ctx.GetClientIpAddr())
-					return
-				}
-				counter++
-
-				msgCode := binary.BigEndian.Uint16(msgData[2:4])
-				message, err := msg.Decode(msgData[4:], int16(msgCode))
-				if err != nil {
-					log.Error("message message msgCode: %d, err: %+v", msgCode, err)
-					return
-				}
-				log.Info("收到客户端消息,msgCode: %d, message Name: %v", msgCode, message.Descriptor().Name())
-
 			}()
+			_, msgData, err := ctx.Conn.ReadMessage()
+			if err != nil {
+				log.Error("websocket readMessage error: %v ", err)
+				return
+			}
+			log.Info("msgData: %v", msgData)
+
+			t1 := time.Now().UnixMilli()
+			if (t1 - t0) > oneSecondMilli {
+				t0 = t1
+				counter = 0
+			}
+
+			if counter >= limitByPacketCountPerSecond {
+				log.Error("消息过于频繁, 拒绝处理, userId: %v, clientIp: %s", ctx.GetUserId(), ctx.GetClientIpAddr())
+				return
+			}
+			counter++
+
+			msgCode := binary.BigEndian.Uint16(msgData[2:4])
+			message, err := msg.Decode(msgData[4:], int16(msgCode))
+			if err != nil {
+				log.Error("message message msgCode: %d, err: %+v", msgCode, err)
+				return
+			}
+			log.Info("收到客户端消息,msgCode: %d, message Name: %v", msgCode, message.Descriptor().Name())
+
 		}()
 
 	}

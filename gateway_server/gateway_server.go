@@ -1,9 +1,10 @@
-package gateway_server
+package main
 
 import (
 	"fmt"
 	"github.com/gorilla/websocket"
 	"hero_story/comm/log"
+	gatewaySocket "hero_story/gateway_server/network/websocket"
 	"net/http"
 	"os"
 	"path"
@@ -28,7 +29,7 @@ func main() {
 	}
 
 	log.Config(path.Dir(ex) + "/log/gateway_server.log")
-	log.Info("bizServer start success")
+	log.Info("gateway_server start success")
 
 	http.HandleFunc("/websocket", websocketHandShake)
 
@@ -51,5 +52,11 @@ func websocketHandShake(w http.ResponseWriter, r *http.Request) {
 	}()
 	log.Info("有新客户端加入")
 	sessionId += 1
+	ctx := &gatewaySocket.CmdContextImpl{
+		Conn:      conn,
+		SessionId: sessionId,
+	}
+	go ctx.LoopSendMsg()
+	ctx.LoopReadMsg()
 
 }

@@ -61,7 +61,7 @@ func websocketHandShake(w http.ResponseWriter, r *http.Request) {
 	defer broadcaster.RemoveCmdCtxBySessionId(sessionId)
 
 	// 发送消息
-	go ctx.LoopSendMsg()
+	ctx.LoopSendMsg()
 	//读取消息
 	ctx.LoopReadMsg()
 

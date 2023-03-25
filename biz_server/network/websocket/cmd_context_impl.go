@@ -68,20 +68,23 @@ func (ctx *CmdContextImpl) LoopSendMsg() {
 		return
 	}
 	ctx.sendMsgQueue = make(chan *protoreflect.ProtoMessage, 1024)
-	for {
-		msgObj := <-ctx.sendMsgQueue
-		if msgObj == nil {
-			continue
+	go func() {
+		for {
+			msgObj := <-ctx.sendMsgQueue
+			if msgObj == nil {
+				continue
+			}
+			byteArray, err := msg.Encode(msgObj)
+			if err != nil {
+				log.Error("[websocket] Encode msg error: %v", err)
+				return
+			}
+			if err := ctx.Conn.WriteMessage(websocket.BinaryMessage, byteArray); err != nil {
+				log.Error("[websocket] WriteMessage error: %+v", err)
+			}
 		}
-		byteArray, err := msg.Encode(msgObj)
-		if err != nil {
-			log.Error("[websocket] Encode msg error: %v", err)
-			return
-		}
-		if err := ctx.Conn.WriteMessage(websocket.BinaryMessage, byteArray); err != nil {
-			log.Error("[websocket] WriteMessage error: %+v", err)
-		}
-	}
+	}()
+
 }
 
 // LoopReadMsg 读取消息

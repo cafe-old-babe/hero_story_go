@@ -1,5 +1,7 @@
 package main_thread
 
+import "hero_story/comm/log"
+
 const maxQueueSize = 2048
 
 var (
@@ -11,9 +13,18 @@ func init() {
 	go func() {
 		for {
 			task := <-mainQueue
-			if nil != task {
-				task()
+			if nil == task {
+				continue
 			}
+			func() {
+				defer func() {
+					if err := recover(); err != nil {
+						log.Error("发生异常, %+v", err)
+					}
+				}()
+				task()
+			}()
+
 		}
 	}()
 }

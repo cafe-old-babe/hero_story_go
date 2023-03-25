@@ -32,8 +32,17 @@ func (w *worker) loopExecTask() {
 	}
 	for {
 		task := <-w.taskQ
-		if nil != task {
-			task()
+		if nil == task {
+			continue
 		}
+		func() {
+			defer func() {
+				if err := recover(); err != nil {
+					log.Error("发生异常, %+v", err)
+				}
+			}()
+			task()
+		}()
+
 	}
 }

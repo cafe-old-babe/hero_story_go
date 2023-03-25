@@ -134,10 +134,10 @@ func (ctx *CmdContextImpl) LoopReadMsg() {
 				main_thread.Process(func() {
 					cmdHandlerFunc(ctx, message)
 				})
+				handler.OnUserQuitHandler(ctx)
 			}()
 		}()
 
 	}
 
-	handler.OnUserQuitHandler(ctx)
 }

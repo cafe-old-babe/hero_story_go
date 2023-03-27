@@ -79,6 +79,8 @@ func (ctx *CmdContextImpl) LoopSendMsg() {
 				log.Error("[websocket] Encode msg error: %v", err)
 				return
 			}
+
+			//发送消息给网关
 			if err := ctx.Conn.WriteMessage(websocket.BinaryMessage, byteArray); err != nil {
 				log.Error("[websocket] WriteMessage error: %+v", err)
 			}
@@ -123,9 +125,12 @@ func (ctx *CmdContextImpl) LoopReadMsg() {
 					log.Error("解析消息出错：%+v", e)
 				}
 			}()
+			innerMsg := &msg.InternalServerMsg{}
+			innerMsg.FromByteArray(msgData)
+			realMsgData := innerMsg.MsgData
 
-			msgCode := binary.BigEndian.Uint16(msgData[2:4])
-			message, err := msg.Decode(msgData[4:], int16(msgCode))
+			msgCode := binary.BigEndian.Uint16(realMsgData[2:4])
+			message, err := msg.Decode(realMsgData[4:], int16(msgCode))
 			if err != nil {
 				log.Error("message message msgCode: %d, err: %+v", msgCode, err)
 				return

@@ -32,5 +32,6 @@ func (msg *InternalServerMsg) FromByteArray(byteArray []byte) {
 	_ = binary.Read(buff, binary.BigEndian, &msg.GatewayServerId)
 	_ = binary.Read(buff, binary.BigEndian, &msg.SessionId)
 	_ = binary.Read(buff, binary.BigEndian, &msg.UserId)
+	// 读取消息长度
 	msg.MsgData = buff.Bytes()
 }

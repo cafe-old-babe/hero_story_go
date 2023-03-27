@@ -3,8 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/websocket"
-	"hero_story/biz_server/network/broadcaster"
-	myWebsocket "hero_story/biz_server/network/websocket"
+	websocket2 "hero_story/biz_server/network/websocket"
 	"hero_story/comm/log"
 	"net/http"
 	"os"
@@ -53,16 +52,25 @@ func websocketHandShake(w http.ResponseWriter, r *http.Request) {
 	}()
 	log.Info("有新客户端加入")
 	sessionId += 1
-	ctx := &myWebsocket.CmdContextImpl{
-		Conn:      conn,
-		SessionId: sessionId,
+	//region old
+	/*
+		ctx := &myWebsocket.CmdContextImpl{
+			Conn:      conn,
+			SessionId: sessionId,
+		}
+		broadcaster.AddCmdCtx(sessionId, ctx)
+		defer broadcaster.RemoveCmdCtxBySessionId(sessionId)
+
+		// 发送消息
+		ctx.LoopSendMsg()
+		//读取消息
+		ctx.LoopReadMsg()
+	*/
+	//endregion
+
+	gatewayConn := &websocket2.GatewayServerConn{
+		WsConn: conn,
 	}
-	broadcaster.AddCmdCtx(sessionId, ctx)
-	defer broadcaster.RemoveCmdCtxBySessionId(sessionId)
-
-	// 发送消息
-	ctx.LoopSendMsg()
-	//读取消息
-	ctx.LoopReadMsg()
-
+	gatewayConn.LoopSendMsg()
+	gatewayConn.LoopReadMsg()
 }

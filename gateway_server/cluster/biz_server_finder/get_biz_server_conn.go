@@ -2,6 +2,7 @@ package biz_server_finder
 
 import (
 	"github.com/gorilla/websocket"
+	"hero_story/biz_server/msg"
 	"hero_story/comm/log"
 	"sync"
 )
@@ -35,11 +36,16 @@ func GetBizServerConn() (*websocket.Conn, error) {
 			if err != nil {
 				log.Error("从服务器读取消息失败: %+v", err)
 			}
-			log.Info("从游戏服务器读取消息: type: %v, data: %v", msgType, msgData)
+
+			innerMsg := &msg.InternalServerMsg{}
+			innerMsg.FromByteArray(msgData)
+			log.Info("从游戏服务器读取消息: sessionId: %d, userId: %d, type: %v, data: %v",
+				innerMsg.SessionId, innerMsg.UserId, msgType, msgData)
+
 			//ctx.Conn 网关服务器到游戏客户端连接 todo
-			//if err = ctx.Conn.WriteMessage(msgType, msgData); nil != err {
-			//	log.Error("网关服务器到发送消息失败: %+v", err)
-			//}
+			if err = bizServerConn.WriteMessage(msgType, innerMsg.MsgData); nil != err {
+				log.Error("网关服务器到发送消息失败: %+v", err)
+			}
 		}
 	}()
 	//endregion

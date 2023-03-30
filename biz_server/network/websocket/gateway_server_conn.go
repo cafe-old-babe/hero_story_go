@@ -42,7 +42,7 @@ func (conn *GatewayServerConn) LoopReadMsg() {
 		_, msgData, err := conn.WsConn.ReadMessage()
 		if err != nil {
 			log.Error("websocket readMessage error: %v ", err)
-			return
+			break
 		}
 		log.Info("msgData: %v", msgData)
 
@@ -81,7 +81,6 @@ func (conn *GatewayServerConn) LoopReadMsg() {
 			})
 
 		}()
-
 	}
 	//handler.OnUserQuitHandler(ctx)
 }

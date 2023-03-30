@@ -31,6 +31,9 @@ func (ctx *innerCmdContextImpl) GetClientIpAddr() string {
 
 // Write 写入消息
 func (ctx *innerCmdContextImpl) Write(msgObj protoreflect.ProtoMessage) {
+	if msgObj == nil {
+		return
+	}
 	byteArray, err := msg.Encode(&msgObj)
 	if nil != err {
 		log.Error("encode msg fail, err:%v", err)

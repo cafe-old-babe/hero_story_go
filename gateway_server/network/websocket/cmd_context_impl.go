@@ -131,7 +131,7 @@ func (ctx *CmdContextImpl) LoopReadMsg() {
 			}()
 
 			log.Info("收到客户端消息并转发给游戏服")
-			innerMsg := msg.InternalServerMsg{
+			innerMsg := &msg.InternalServerMsg{
 				GatewayServerId: 0,
 				SessionId:       ctx.SessionId,
 				UserId:          ctx.GetUserId(),

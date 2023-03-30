@@ -43,9 +43,9 @@ func GetBizServerConn() (*websocket.Conn, error) {
 				innerMsg.SessionId, innerMsg.UserId, msgType, msgData)
 
 			//ctx.Conn 网关服务器到游戏客户端连接 todo
-			if err = bizServerConn.WriteMessage(msgType, innerMsg.MsgData); nil != err {
-				log.Error("网关服务器到发送消息失败: %+v", err)
-			}
+			//if err = bizServerConn.WriteMessage(msgType, innerMsg.MsgData); nil != err {
+			//	log.Error("网关服务器到发送消息失败: %+v", err)
+			//}
 		}
 	}()
 	//endregion

@@ -2,17 +2,20 @@ package websocket
 
 import (
 	"encoding/binary"
+	"fmt"
 	"github.com/gorilla/websocket"
 	"hero_story/biz_server/handler"
 	"hero_story/biz_server/msg"
 	"hero_story/comm/log"
 	"hero_story/comm/main_thread"
+	"sync"
 )
 
 type GatewayServerConn struct {
 	GatewayServerId int32
 	WsConn          *websocket.Conn
 	sendMsgQ        chan *msg.InternalServerMsg
+	ctxMap          *sync.Map
 }
 
 func (conn *GatewayServerConn) LoopSendMsg() {
@@ -37,6 +40,8 @@ func (conn *GatewayServerConn) LoopReadMsg() {
 	if nil == conn.WsConn {
 		return
 	}
+
+	conn.ctxMap = &sync.Map{}
 
 	for {
 		_, msgData, err := conn.WsConn.ReadMessage()
@@ -70,14 +75,16 @@ func (conn *GatewayServerConn) LoopReadMsg() {
 				log.Error("没有查询到指令处理函数,msgCode: %d", msgCode)
 				return
 			}
-			ctx := &innerCmdContextImpl{
+			sessionUid := fmt.Sprintf("%d_%d", innerMsg.GatewayServerId, innerMsg.SessionId)
+			ctx, _ := conn.ctxMap.LoadOrStore(sessionUid, &innerCmdContextImpl{
 				gatewayServerId:   innerMsg.GatewayServerId,
 				remoteSessionId:   innerMsg.SessionId,
 				userId:            innerMsg.UserId,
 				GatewayServerConn: conn,
-			}
+			})
+
 			main_thread.Process(func() {
-				cmdHandlerFunc(ctx, message)
+				cmdHandlerFunc(ctx.(*innerCmdContextImpl), message)
 			})
 
 		}()

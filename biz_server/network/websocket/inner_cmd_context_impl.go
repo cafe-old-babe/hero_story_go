@@ -11,6 +11,7 @@ type innerCmdContextImpl struct {
 	remoteSessionId int32
 	userId          int64
 	clientIpAddr    string
+	lastActiveTime  int64
 	*GatewayServerConn
 }
 
